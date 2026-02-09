@@ -1,0 +1,869 @@
+/* CSS Variables - Grant Thornton / Rawstone Fusion */
+:root {
+    /* Brand Colors */
+    --color-primary: #4F2D7F;
+    /* Purple - Brand Identity */
+    --color-primary-dark: #371e59;
+    --color-secondary: #00838F;
+    /* Teal - Accents */
+    --color-accent: #9BD732;
+    /* Green - Minor highlights */
+
+    --color-bg-light: #FFFFFF;
+    --color-bg-off-white: #F8F9FA;
+    --color-bg-dark: #1A1A1A;
+
+    --color-text-main: #2D2D2D;
+    --color-text-light: #555555;
+    --color-text-lighter: #888888;
+
+    --color-border: #E5E5E5;
+
+    /* Typography */
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Spacing */
+    --container-width: 1280px;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1.5rem;
+    --spacing-md: 3rem;
+    --spacing-lg: 5rem;
+    --spacing-xl: 8rem;
+
+    /* Effects */
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+}
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: white;
+    /* Ensure base is white */
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-text-main);
+    line-height: 1.6;
+    background-color: white;
+    /* Explicitly white */
+    -webkit-font-smoothing: antialiased;
+    box-shadow: none;
+    /* Safety check */
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-primary);
+}
+
+a {
+    text-decoration: none;
+    transition: 0.3s;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Utilities */
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.section-tag {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-secondary);
+    margin-bottom: 1rem;
+}
+
+.highlight {
+    color: var(--color-secondary);
+}
+
+.text-white {
+    color: white !important;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.9rem 2.2rem;
+    font-weight: 600;
+    font-family: var(--font-heading);
+    border-radius: var(--radius-sm);
+    /* Rawstone uses sharper corners often */
+    font-size: 1rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-outline-white {
+    background-color: transparent;
+    border-color: white;
+    color: white;
+}
+
+.btn-outline-white:hover {
+    background-color: white;
+    color: var(--color-primary);
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    box-shadow: var(--shadow-sm);
+    padding: 1rem 0;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    letter-spacing: -0.5px;
+}
+
+.logo-highlight {
+    color: var(--color-secondary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.nav-links a:not(.btn) {
+    font-weight: 500;
+    color: var(--color-text-main);
+    font-size: 0.95rem;
+}
+
+.nav-links a:not(.btn):hover {
+    color: var(--color-primary);
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: var(--color-primary);
+}
+
+/* Hero Section - Corporate Style */
+.hero {
+    padding-top: 180px;
+    padding-bottom: 100px;
+    background-color: white;
+    /* Changed from #f4f6fa to remove "edge lighting" feel */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Removed Edge Lighting Effect (.hero::after) per user request */
+/* Ensure no overlay */
+.hero-overlay {
+    display: none;
+}
+
+.hero-content {
+    max-width: 800px;
+    position: relative;
+    z-index: 2;
+}
+
+/* ... existing styles ... */
+
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    box-shadow: var(--shadow-md);
+    min-width: 220px;
+    border-radius: var(--radius-sm);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-menu li:last-child a {
+    border-bottom: none;
+}
+
+.dropdown-menu li a:hover {
+    background-color: var(--color-bg-off-white);
+    color: var(--color-primary);
+    padding-left: 1.8rem;
+    /* slight shift effect */
+}
+
+/* Insights Grid */
+.insights-section {
+    padding: var(--spacing-lg) 0;
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.insight-card {
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    border: 1px solid var(--color-border);
+}
+
+.insight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.insight-image {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--color-primary);
+}
+
+.insight-content {
+    padding: 1.5rem;
+}
+
+.insight-date {
+    font-size: 0.8rem;
+    color: var(--color-text-lighter);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.insight-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+}
+
+.read-more {
+    color: var(--color-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Services Detail Pages */
+.service-detail {
+    padding: var(--spacing-lg) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.bg-off-white {
+    background-color: var(--color-bg-off-white);
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Single column for clarity or 2 if needed */
+    gap: 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.service-icon {
+    font-size: 3rem;
+    color: var(--color-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.check-list {
+    margin-top: 1.5rem;
+}
+
+.check-list li {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 0.8rem;
+    color: var(--color-text-light);
+}
+
+.check-list li::before {
+    content: '\f00c';
+    /* FontAwesome check */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--color-accent);
+}
+
+/* Cookie Banner */
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-bg-dark);
+    color: white;
+    padding: 1rem 0;
+    z-index: 2000;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    display: none;
+    /* JS will show flex */
+}
+
+.cookie-banner.show {
+    transform: translateY(0);
+    display: block;
+}
+
+.cookie-banner .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cookie-banner a {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
+/* Page Header */
+.page-header {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 180px 0 80px;
+    text-align: center;
+}
+
+.page-header h1 {
+    color: white;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.page-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.page-header .eyebrow {
+    color: var(--color-accent);
+}
+
+/* Newsletter */
+.newsletter-form-container {
+    max-width: 500px;
+    margin: 2rem auto 0;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: var(--radius-sm);
+}
+
+/* Mobile Dropdown Fix */
+@media (max-width: 768px) {
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        background: transparent;
+        padding-left: 1rem;
+        display: none;
+        /* Toggle with JS */
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+}
+
+.hero h1 {
+    font-size: 4rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+}
+
+.hero p {
+    font-size: 1.3rem;
+    color: var(--color-text-light);
+    max-width: 650px;
+    margin-bottom: 2.5rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-outline-white {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.btn-outline-white:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* Mission - Clean & Centered */
+.mission {
+    padding: var(--spacing-lg) 0;
+    background-color: white;
+    text-align: center;
+}
+
+.mission-box {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.mission h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+}
+
+.mission p {
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+    line-height: 1.8;
+}
+
+/* Expertise Grid */
+.expertise {
+    padding: var(--spacing-lg) 0;
+    background-color: var(--color-bg-off-white);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+}
+
+.expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.expertise-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-bottom: 3px solid transparent;
+}
+
+.expertise-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-bottom-color: var(--color-secondary);
+}
+
+.card-icon {
+    font-size: 2rem;
+    color: var(--color-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.expertise-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.expertise-card p {
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.card-list li {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    padding-left: 1.2rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.card-list li::before {
+    content: '•';
+    color: var(--color-secondary);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* Firm Profile */
+.firm-profile {
+    padding: var(--spacing-xl) 0;
+    background: white;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.profile-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.profile-content p {
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+}
+
+.text-link {
+    color: var(--color-secondary);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.text-link:hover {
+    gap: 0.8rem;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    background: var(--color-bg-off-white);
+    padding: 3rem;
+    border-radius: var(--radius-md);
+}
+
+.stat-item {
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--color-secondary);
+}
+
+.stat-num {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    font-family: var(--font-heading);
+}
+
+.stat-desc {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* CTA Section */
+.cta-section {
+    background-color: var(--color-primary);
+    padding: 5rem 0;
+    text-align: center;
+    color: white;
+}
+
+.cta-section h2 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.cta-section p {
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+.btn-white {
+    background: white;
+    color: var(--color-primary);
+}
+
+.btn-white:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+/* Contact Global */
+.contact {
+    padding: var(--spacing-xl) 0;
+}
+
+.contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+}
+
+.contact-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.contact-item i {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(79, 45, 127, 0.1);
+    color: var(--color-primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-item p,
+.contact-item a {
+    display: block;
+    color: var(--color-text-light);
+    font-size: 0.95rem;
+}
+
+.corporate-form {
+    background: white;
+    padding: 3rem;
+    box-shadow: var(--shadow-md);
+    border-radius: var(--radius-md);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.corporate-form input,
+.corporate-form textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 1rem;
+}
+
+.corporate-form input:focus,
+.corporate-form textarea:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+}
+
+.corporate-form textarea {
+    margin-bottom: 1.5rem;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--color-bg-dark);
+    color: white;
+    padding: 4rem 0 2rem;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-brand p {
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.5rem;
+}
+
+.footer-socials {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-socials a {
+    color: white;
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.footer-socials a:hover {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.footer-bottom {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .profile-grid,
+    .contact-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .footer-top,
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+}
