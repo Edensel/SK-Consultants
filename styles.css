@@ -577,6 +577,12 @@ ul {
         align-items: flex-start;
     }
 
+    .corporate-form .form-row {
+        display: flex;
+        flex-direction: column !important;
+        gap: 1rem;
+    }
+
     /* Footer */
     .footer-top {
         flex-direction: column;

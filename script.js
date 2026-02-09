@@ -170,7 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     } else {
-        console.warn('Supabase client not initialized. Contact form submission will not work.');
+        console.warn('KB & Associates: Supabase URL or Anon Key is missing in script.js');
+        console.warn('Please update script.js with your actual Supabase credentials to enable form submissions.');
     }
 
     // Add animation styles
