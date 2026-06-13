@@ -1,7 +1,79 @@
-console.log('Script.js loaded');
+// Security Configuration
+const SECURITY_CONFIG = {
+    maxFormSubmissions: 5,
+    submissionWindowMs: 3600000, // 1 hour
+    allowedEmailDomains: [], // Empty = allow all
+    maxMessageLength: 5000,
+    maxNameLength: 100,
+    sanitizeInputs: true
+};
+
+// Rate limiting storage
+let formSubmissionAttempts = [];
+
+// Input sanitization function
+function sanitizeInput(input) {
+    if (typeof input !== 'string') return '';
+    
+    // Remove any script tags and dangerous characters
+    const sanitized = input
+        .replace(/<script[^>]*>.*?<\/script>/gi, '')
+        .replace(/<[^>]+>/g, '')
+        .trim();
+    
+    // Prevent XSS by escaping special characters
+    return escapeHtml(sanitized);
+}
+
+// HTML escape function
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+// Email validation
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email) && email.length < 254;
+}
+
+// Rate limiting check
+function checkRateLimit() {
+    const now = Date.now();
+    formSubmissionAttempts = formSubmissionAttempts.filter(
+        timestamp => now - timestamp < SECURITY_CONFIG.submissionWindowMs
+    );
+    
+    if (formSubmissionAttempts.length >= SECURITY_CONFIG.maxFormSubmissions) {
+        return false; // Rate limit exceeded
+    }
+    
+    formSubmissionAttempts.push(now);
+    return true;
+}
+
+// CSRF Token generation
+function generateCSRFToken() {
+    return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+// Store CSRF token in session
+if (!sessionStorage.getItem('csrfToken')) {
+    sessionStorage.setItem('csrfToken', generateCSRFToken());
+}
+
+console.log('Security module loaded');
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM Content Loaded');
+    console.log('DOM Content Loaded - Initializing secure environment');
 
     // Navigation Toggle
     const hamburger = document.querySelector('.hamburger');
@@ -121,8 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Supabase Integration
-    // TODO: Replace with your actual project URL and Anon Key from Supabase Dashboard
+    // Supabase Integration (with security hardening)
+    // Store credentials securely - should be in environment variables
     const SUPABASE_URL = 'https://xyzcompany.supabase.co';
     const SUPABASE_KEY = 'public-anon-key';
     const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
@@ -133,22 +205,74 @@ document.addEventListener('DOMContentLoaded', () => {
             contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                if (!supabase) {
-                    alert('Supabase is not configured. Please add your API keys in script.js');
+                // Rate limiting check
+                if (!checkRateLimit()) {
+                    alert('Too many submission attempts. Please try again later.');
                     return;
                 }
 
+                if (!supabase) {
+                    alert('Supabase is not configured. Please add your API keys in script.js');
+                    console.error('Supabase configuration missing');
+                    return;
+                }
+
+                // Get form inputs
+                const nameInput = contactForm.querySelector('input[type="text"]:first-child');
+                const emailInput = contactForm.querySelector('input[type="email"]');
+                const orgInput = contactForm.querySelector('input[placeholder*="Organization"]');
+                const messageInput = contactForm.querySelector('textarea');
                 const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+                // Validate form fields exist
+                if (!nameInput || !emailInput || !orgInput || !messageInput || !submitBtn) {
+                    console.error('Form structure invalid');
+                    alert('Form structure error. Please refresh and try again.');
+                    return;
+                }
+
+                // Get values
+                const name = sanitizeInput(nameInput.value.trim());
+                const email = sanitizeInput(emailInput.value.trim());
+                const organization = sanitizeInput(orgInput.value.trim());
+                const message = sanitizeInput(messageInput.value.trim());
+
+                // Validation checks
+                if (!name || name.length < 2 || name.length > SECURITY_CONFIG.maxNameLength) {
+                    alert('Please enter a valid name (2-100 characters).');
+                    nameInput.focus();
+                    return;
+                }
+
+                if (!email || !isValidEmail(email)) {
+                    alert('Please enter a valid email address.');
+                    emailInput.focus();
+                    return;
+                }
+
+                if (!organization || organization.length < 2) {
+                    alert('Please enter your organization name.');
+                    orgInput.focus();
+                    return;
+                }
+
+                if (!message || message.length < 10 || message.length > SECURITY_CONFIG.maxMessageLength) {
+                    alert('Message must be between 10 and 5000 characters.');
+                    messageInput.focus();
+                    return;
+                }
+
                 const originalBtnText = submitBtn.innerText;
                 submitBtn.innerText = 'Sending...';
                 submitBtn.disabled = true;
 
                 const formData = {
-                    name: contactForm.querySelector('input[type="text"]:first-child').value,
-                    email: contactForm.querySelector('input[type="email"]').value,
-                    organization: contactForm.querySelector('input[placeholder*="Organization"]').value,
-                    message: contactForm.querySelector('textarea').value,
-                    submitted_at: new Date()
+                    name: name,
+                    email: email,
+                    organization: organization,
+                    message: message,
+                    submitted_at: new Date().toISOString(),
+                    csrf_token: sessionStorage.getItem('csrfToken') // Include CSRF token
                 };
 
                 try {
@@ -156,13 +280,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         .from('messages')
                         .insert([formData]);
 
-                    if (error) throw error;
+                    if (error) {
+                        console.error('Database error:', error);
+                        throw new Error('Failed to send message. Please try again.');
+                    }
 
-                    alert('Thank you! Your message has been sent successfully.');
+                    alert('Thank you! Your message has been sent successfully. We will contact you soon.');
                     contactForm.reset();
+                    
+                    // Reset CSRF token after successful submission
+                    sessionStorage.setItem('csrfToken', generateCSRFToken());
                 } catch (error) {
-                    console.error('Error sending message:', error);
-                    alert('There was an error sending your message. Please try again.');
+                    console.error('Error sending message:', error.message);
+                    alert('There was an error sending your message. Please try again later or contact us directly.');
                 } finally {
                     submitBtn.innerText = originalBtnText;
                     submitBtn.disabled = false;
@@ -170,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     } else {
-        console.warn('KB & Associates: Supabase URL or Anon Key is missing in script.js');
+        console.warn('SK Consultants: Supabase URL or Anon Key is missing in script.js');
         console.warn('Please update script.js with your actual Supabase credentials to enable form submissions.');
     }
 

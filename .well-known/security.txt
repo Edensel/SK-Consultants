@@ -1,0 +1,55 @@
+Contact: security@skconsultants.global
+Expires: 2027-06-13T00:00:00Z
+Preferred-Languages: en
+Canonical: https://skconsultants.global/.well-known/security.txt
+
+# Security Policy for SK Consultants
+
+## Vulnerability Disclosure Policy
+
+We take security very seriously and welcome responsible vulnerability disclosures from security researchers.
+
+### How to Report
+
+1. **Do not** publicly disclose the vulnerability
+2. Email: security@skconsultants.global
+3. Include:
+   - Description of the vulnerability
+   - Steps to reproduce
+   - Potential impact
+   - Suggested fix (if known)
+
+### Response Timeline
+
+- **Initial Response**: Within 24 hours
+- **Status Updates**: Every 7 days
+- **Resolution Target**: 30-60 days depending on severity
+
+### Safe Harbor
+
+Researchers following this policy will not be held legally liable for:
+- Accessing information necessary to identify the vulnerability
+- Testing fixes in a controlled manner
+- Notifying other vendors of similar vulnerabilities (if applicable)
+
+### Scope
+
+This policy applies to:
+- skconsultants.global
+- All subdomains
+- Associated applications and APIs
+
+### Out of Scope
+
+Security research that involves:
+- Disruption or degradation of services
+- Accessing user data without authorization
+- Social engineering
+- Physical attacks
+- Testing from outside the specified scope
+
+### Recognition
+
+We acknowledge and appreciate security researchers who follow this policy:
+- Credit in our security hall of fame (with permission)
+- Recognition in security updates

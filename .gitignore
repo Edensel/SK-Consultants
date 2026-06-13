@@ -1,0 +1,41 @@
+# Environment files (NEVER commit these)
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+*.log
+
+# Node (if using Node.js)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build/dist files
+dist/
+build/
+out/
+
+# Cache
+.cache/
+*.cache
+
+# Local testing
+test-results/
+coverage/

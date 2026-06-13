@@ -1,0 +1,22 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /.env
+Disallow: /.git
+Disallow: /*.json$
+Disallow: /*.sql$
+Disallow: /backup/
+Disallow: /temp/
+Disallow: /private/
+
+Allow: /
+
+Sitemap: https://skconsultants.global/sitemap.xml
+
+# Security: Rate limit aggressive crawlers
+User-agent: AhrefsBot
+Crawl-delay: 10
+Disallow: /
+
+User-agent: SemrushBot
+Crawl-delay: 10
+Disallow: /
